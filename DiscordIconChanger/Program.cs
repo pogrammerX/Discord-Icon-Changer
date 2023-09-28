@@ -1,4 +1,4 @@
-﻿using DiscordIconChanger;
+﻿using DiscordIconChanger.Core;
 using System.Drawing;
 
 class Prpgram
@@ -17,34 +17,29 @@ class Prpgram
             return;
         }
 
-        Console.WriteLine("Locating Discord...");
-        string discordRoot = "C:\\Users\\" + Environment.UserName + "\\AppData\\Local\\Discord";
+        DiscordLocation location;
 
-        string discordAppDir = "";
-        foreach (var dir in Directory.GetDirectories(discordRoot))
+        try
         {
-            if (Path.GetFileName(dir).StartsWith("app-"))
-                discordAppDir = dir;
-        }
-
-        if(string.IsNullOrWhiteSpace(discordAppDir))
+            location = DiscordUtil.LocateDiscord();
+        }catch
         {
             Console.WriteLine("Discord not found!");
-            Console.WriteLine("We've searched in " + discordRoot + " but didn't find it, have you installed Discord?");
+            Console.WriteLine("Have you installed Discord?");
             return;
         }
 
         if (args[0] == "--restore")
         {
             File.WriteAllBytes(Environment.CurrentDirectory + "\\normal.ico", DiscordIconChanger.Properties.Resources.normal);
-            DIC.Perform(discordRoot, discordAppDir, Environment.CurrentDirectory + "\\normal.ico");
+            DIC.Perform(location, Environment.CurrentDirectory + "\\normal.ico");
             File.Delete(Environment.CurrentDirectory + "\\normal.ico");
             Console.WriteLine("Restored!");
             return;
         }
 
         Console.WriteLine("Changing Icon...");
-        DIC.Perform(discordRoot, discordAppDir, args[0]);
+        DIC.Perform(location, args[0]);
         Console.WriteLine("Finished!");
     }
 }
