@@ -82,9 +82,10 @@ namespace DiscordIconChanger.GUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes(Environment.CurrentDirectory + "\\normal.ico", Properties.Resources.normal);
-            DIC.Perform(DiscordUtil.LocateDiscord(), Environment.CurrentDirectory + "\\normal.ico");
-            File.Delete(Environment.CurrentDirectory + "\\normal.ico");
+            string normalIcoPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\normal.ico";
+            File.WriteAllBytes(normalIcoPath, Properties.Resources.normal);
+            DIC.Perform(DiscordUtil.LocateDiscord(), normalIcoPath);
+            File.Delete(normalIcoPath);
             MessageBox.Show("Restored!", "Discord Icon Changer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
