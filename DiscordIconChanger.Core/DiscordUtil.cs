@@ -23,13 +23,14 @@ namespace DiscordIconChanger.Core
             foreach (var dir in Directory.GetDirectories(discordRoot))
             {
                 if (Path.GetFileName(dir).StartsWith("app-"))
+                {
                     discordAppDir = dir;
+                    break;
+                }
             }
 
             if (string.IsNullOrWhiteSpace(discordAppDir) || !Directory.Exists(discordRoot))
-            {
                 throw new("Discord not found.");
-            }
 
             return new DiscordLocation { App = discordAppDir, Root = discordRoot };
         }
